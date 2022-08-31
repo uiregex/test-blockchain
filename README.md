@@ -1,8 +1,8 @@
 # Blockchain
 
-Create a simple Angular or React application that uses the [tzkt.io](https://tzkt.io) REST service API.
-For Angular projects, either use Observables to pass around data between Services and UI
-components or use the NgRx framework for state management.
+Create a simple Angular application that uses the [tzkt.io](https://tzkt.io) REST service API.
+Use Observables to pass around data between Services and UI components or use the NgRx framework
+for state management.
 
 The REST API can be used to fetch data about the Tezos Blockchain.
 
@@ -18,7 +18,8 @@ filtering for the desired block levels). The table should be sorted in descendin
 block level.
 
 Clicking on a row should go to a Details page where the block’s transactions are listed in a
-paged table. Use the [transactions endpoint](https://api.tzkt.io/#operation/Operations_GetTransactions) to fetch the transactions for a certain block level.
+paged table. Use the [transactions endpoint](https://api.tzkt.io/#operation/Operations_GetTransactions)
+to fetch the transactions for a certain block level.
 The transactions table should display each transactions’ sender, target, amount and status.
 
 The UI does not need to be fancy, the important part is the code/business logic.
