@@ -27,7 +27,7 @@ export class UniTransactionsService {
     return this.blockchainStore.getTransactionsCount();
   }
 
-  getSelectedBlock(): Observable<number> {
+  getSelectedBlock(): Observable<number | undefined> {
     return this.blockchainStore.getSelectedBlock();
   }
 

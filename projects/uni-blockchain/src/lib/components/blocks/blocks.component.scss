@@ -1,19 +1,19 @@
-.example-container {
+.uni-container {
   position: relative;
 }
 
-.example-table-container {
+.uni-table-container {
   position: relative;
   min-height: 200px;
   max-height: 600px;
   overflow: auto;
 }
 
-table {
+.uni-table {
   width: 100%;
 }
 
-.example-loading-shade {
+.uni-loading-shade {
   position: absolute;
   top: 0;
   left: 0;
@@ -26,25 +26,10 @@ table {
   justify-content: center;
 }
 
-.test {
+.uni-point {
   cursor: pointer;
 }
 
 .clicked {
   font-weight: bold;
 }
-
-//.example-rate-limit-reached {
-//  max-width: 360px;
-//  text-align: center;
-//}
-
-/* Column Widths */
-//.mat-column-number,
-//.mat-column-state {
-//  max-width: 64px;
-//}
-//
-//.mat-column-created {
-//  max-width: 124px;
-//}

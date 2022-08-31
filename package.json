@@ -5,18 +5,28 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:common": "ng build uni-common",
+    "build:blockchain": "ng build uni-blockchain",
     "watch": "ng build --watch --configuration development",
+    "format": "npx prettier \"./projects/**/*.{ts,html,css}\" --write",
     "test": "ng test"
   },
   "dependencies": {
     "@angular/animations": "14.2.0",
+    "@angular/cdk": "14.2.0",
     "@angular/common": "14.2.0",
     "@angular/compiler": "14.2.0",
     "@angular/core": "14.2.0",
     "@angular/forms": "14.2.0",
+    "@angular/material": "14.2.0",
     "@angular/platform-browser": "14.2.0",
     "@angular/platform-browser-dynamic": "14.2.0",
     "@angular/router": "14.2.0",
+    "@ngrx/data": "14.3.0",
+    "@ngrx/effects": "14.3.0",
+    "@ngrx/entity": "14.3.0",
+    "@ngrx/store": "14.3.0",
+    "@ngrx/store-devtools": "14.3.0",
     "rxjs": "7.5.6",
     "tslib": "2.4.0",
     "zone.js": "0.11.8"
@@ -32,6 +42,8 @@
     "karma-coverage": "2.2.0",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.0.0",
+    "ng-packagr": "14.2.0",
+    "prettier": "2.7.1",
     "typescript": "4.7.4"
   }
 }

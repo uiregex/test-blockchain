@@ -6,7 +6,6 @@ import { takeUntil } from 'rxjs';
 import { RxUnsubscribe, UniObject } from 'uni-common';
 
 import { Transaction } from '../../models/interfaces/transaction.model';
-
 import { UniTransactionsService } from './transactions.service';
 
 
@@ -20,15 +19,15 @@ export class UniTransactionsComponent extends RxUnsubscribe implements OnInit, A
   columns: string[] = ['sender', 'target', 'amount', 'status'];
   limits: number[] = [5, 10];
   limit: number = 5;
-  transactionsCount: number;
+  transactionsCount: number = 0;
   activeRequests: number = 1;
   data: Transaction[] = [];
 
   private transactions: Transaction[] = [];
-  private transactionsCounts: UniObject<number>;
+  private transactionsCounts: UniObject<number> = {};
   private params: Partial<{ selected: number; }> = {};
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(private transactionsService: UniTransactionsService) {
     super();
@@ -50,25 +49,26 @@ export class UniTransactionsComponent extends RxUnsubscribe implements OnInit, A
         this.transactionsCounts = data;
         this.transactionsCount = this.params.selected ? data[this.params.selected] : 0;
         this.data = this.transactionsCount ? this.transactions : [];
+        this.loadTransactions();
       });
   }
 
   ngAfterViewInit(): void {
     this.transactionsService.getSelectedBlock()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((selectedBlock: number): void => {
+      .subscribe((selectedBlock: number | undefined): void => {
         this.params.selected = selectedBlock;
-        this.transactionsCount = this.transactionsCounts ? this.transactionsCounts[selectedBlock] : 0;
+        this.transactionsCount = this.transactionsCounts && selectedBlock ? this.transactionsCounts[selectedBlock] : 0;
 
         // If the user selects other block, reset back to the first page.
-        this.paginator.pageIndex = 0;
-
-        if (this.transactionsCount) {
-          this.loadTransactions();
+        if (this.paginator) {
+          this.paginator.pageIndex = 0;
         }
+
+        this.loadTransactions();
       });
 
-    this.paginator.page
+    this.paginator?.page
       .pipe(
         startWith({}),
         takeUntil(this.destroy$),
@@ -77,13 +77,15 @@ export class UniTransactionsComponent extends RxUnsubscribe implements OnInit, A
   }
 
   private loadTransactions(): void {
-    this.activeRequests++;
+    if (this.paginator && this.params.selected && this.transactionsCount > 0) {
+      this.activeRequests++;
 
-    this.transactionsService.loadTransactions({
-      level: this.params.selected,
-      page: this.paginator.pageIndex,
-      limit: this.paginator.pageSize,
-      fields: this.columns.toString(),
-    });
+      this.transactionsService.loadTransactions({
+        level: this.params.selected,
+        page: this.paginator.pageIndex,
+        limit: this.paginator.pageSize,
+        fields: this.columns.toString(),
+      });
+    }
   }
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { UniObject } from 'uni-common';
 
-import { Block } from '../models/interfaces/block.model';
+import { Block, ModifiedBlock } from '../models/interfaces/block.model';
 import { Transaction } from '../models/interfaces/transaction.model';
 import { BlocksApiParams } from '../models/interfaces/blocks-api-params.model';
 import { TransactionsApiParams } from '../models/interfaces/transactions-api-params.model';
@@ -18,7 +18,9 @@ import {
 import {
   selectBlocks,
   selectBlocksCount,
-  selectBlocksIds, selectSelectedBlock,
+  selectBlocksIds,
+  selectEnrichedBlocks,
+  selectSelectedBlock,
   selectTransactions,
   selectTransactionsCount,
 } from './blockchain.selectors';
@@ -50,8 +52,8 @@ export class UniBlockchainStoreService {
     return this.store$.pipe(select(selectBlocksCount));
   }
 
-  getBlocks(): Observable<Block[]> {
-    return this.store$.pipe(select(selectBlocks));
+  getBlocks(): Observable<ModifiedBlock[]> {
+    return this.store$.pipe(select(selectEnrichedBlocks));
   }
 
   getBlocksIds(): Observable<string[] | number[]> {
@@ -66,7 +68,7 @@ export class UniBlockchainStoreService {
     return this.store$.pipe(select(selectTransactions));
   }
 
-  getSelectedBlock(): Observable<number> {
+  getSelectedBlock(): Observable<number | undefined> {
     return this.store$.pipe(select(selectSelectedBlock));
   }
 }

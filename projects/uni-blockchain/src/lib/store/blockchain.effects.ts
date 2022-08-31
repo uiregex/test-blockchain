@@ -8,7 +8,7 @@ import { errorHandler, UniObject, UniRestApiService } from 'uni-common';
 import { TransactionsApiParams } from '../models/interfaces/transactions-api-params.model';
 import { BlocksApiParams } from '../models/interfaces/blocks-api-params.model';
 import { Transaction } from '../models/interfaces/transaction.model';
-import { Block, ModifiedBlock } from '../models/interfaces/block.model';
+import { Block } from '../models/interfaces/block.model';
 import { UniBlockchainStoreService } from './blockchain-store.service';
 import {
   LOAD_BLOCKS,
@@ -16,11 +16,9 @@ import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_COUNT,
   SET_BLOCKS,
-  SET_TRANSACTIONS_COUNT,
   loadTransactionsCount,
   setBlocks,
   setBlocksCount,
-  setModifiedBlocks,
   setTransactions,
   setTransactionsCount,
 } from './blockchain.actions';
@@ -95,20 +93,6 @@ export class UniBlockchainEffects {
       }, {})),
       errorHandler('LOAD_TRANSACTIONS_COUNT'),
       map((payload: UniObject<number>): Action => setTransactionsCount({ payload })),
-    ),
-  );
-
-  setTransactionsCount$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(SET_TRANSACTIONS_COUNT),
-      map((data: PayloadData<UniObject<number>>): UniObject<number> => data.payload),
-      withLatestFrom(this.blockchainStore.getBlocks()),
-      map(([transactions, blocks]: [UniObject<number>, Block[]]): Block[] => blocks.map((block: Block) => ({
-        ...block,
-        transactions: transactions[block.level] ?? [],
-      }))),
-      errorHandler('SET_TRANSACTIONS_COUNT'),
-      map((payload: ModifiedBlock[]): Action => setModifiedBlocks({ payload })),
     ),
   );
 

@@ -21,7 +21,17 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "uni-common": [
+        "dist/uni-common",
+        // "projects/uni-common/src/public-api"
+      ],
+      "uni-blockchain": [
+        // "dist/uni-blockchain",
+        "projects/uni-blockchain/src/public-api"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

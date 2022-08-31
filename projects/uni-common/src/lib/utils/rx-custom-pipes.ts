@@ -3,7 +3,7 @@ import { of, Observable } from 'rxjs';
 import { catchError, switchMap, filter } from 'rxjs/operators';
 
 
-export const errorHandler = (name?: string, actions?: Action[]) => <T>(source: Observable<T>) => source.pipe(
+export const errorHandler = (name?: string, actions?: Action[]) => (source: Observable<any>) => source.pipe(
   catchError((error) => {
     console.error(`Error in: ${name}`, error);
 

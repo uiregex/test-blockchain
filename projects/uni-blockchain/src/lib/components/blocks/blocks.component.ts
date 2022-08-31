@@ -26,8 +26,8 @@ export class UniBlocksComponent extends RxUnsubscribe implements OnInit, AfterVi
   data: Block[] = [];
   params: Partial<{ page: number; selected: number; }> = {};
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) sort: MatSort | undefined;
 
   constructor(private blocksService: UniBlocksService) {
     super();
@@ -36,8 +36,8 @@ export class UniBlocksComponent extends RxUnsubscribe implements OnInit, AfterVi
   ngOnInit() {
     const params = new URLSearchParams(this.blocksService.queryParams);
 
-    this.params.page = parseInt(params.get('blocks-page'));
-    this.params.selected = parseInt(params.get('block'));
+    this.params.page = parseInt(params.get('blocks-page') ?? '');
+    this.params.selected = parseInt(params.get('block') ?? '');
     this.blocksService.setSelectedBlock(this.params.selected);
 
     this.blocksService.getBlocksCount()
@@ -47,44 +47,49 @@ export class UniBlocksComponent extends RxUnsubscribe implements OnInit, AfterVi
     this.blocksService.getBlocks()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: ModifiedBlock[]) => {
-        if (data.length > 0 && isDefined(data[0].transactions)) {
-          this.activeRequests--;
-        }
+        this.activeRequests--;
 
         this.data = data;
       });
   }
 
   ngAfterViewInit(): void {
-    this.paginator.pageIndex = this.params.page ?? this.paginator.pageIndex;
+    if (this.paginator) {
+      this.paginator.pageIndex = this.params.page ?? this.paginator.pageIndex;
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((params: SortPage): void => {
-        this.activeRequests++;
+      if (this.sort) {
+        merge(this.sort.sortChange, this.paginator.page)
+          .pipe(
+            startWith({}),
+            takeUntil(this.destroy$),
+          )
+          .subscribe((params: SortPage): void => {
+            this.activeRequests++;
+            this.activeRequests++;
 
-        // If the user changes the sort order, reset back to the first page.
-        if (params.active && params.direction) {
-          this.paginator.pageIndex = 0;
-        }
+            // If the user changes the sort order, reset back to the first page.
+            if (this.paginator && params.active && params.direction) {
+              this.paginator.pageIndex = 0;
+            }
 
-        if (isDefined(params.pageIndex)) {
-          this.blocksService.setQueryParams({ 'blocks-page': params.pageIndex });
-        }
+            if (isDefined(params.pageIndex)) {
+              this.blocksService.setQueryParams({ 'blocks-page': params.pageIndex });
+            }
 
-        this.blocksService.loadBlocksCount();
+            this.blocksService.loadBlocksCount();
 
-        this.blocksService.loadBlocks({
-          limit: this.paginator.pageSize,
-          page: this.paginator.pageIndex,
-          sort: this.sort.active,
-          order: this.sort.direction,
-          fields: 'level,proposer,timestamp',
-        });
-      });
+            if (this.paginator && this.sort) {
+              this.blocksService.loadBlocks({
+                limit: this.paginator.pageSize,
+                page: this.paginator.pageIndex,
+                sort: this.sort.active,
+                order: this.sort.direction,
+                fields: 'level,proposer,timestamp',
+              });
+            }
+          });
+      }
+    }
   }
 
   setSelectedBlock(block: number): void {

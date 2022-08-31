@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { UniWindowRefService } from 'uni-common';
+import { UniObject, UniWindowRefService } from 'uni-common';
 
-import { Block } from '../../models/interfaces/block.model';
+import { Block, ModifiedBlock } from '../../models/interfaces/block.model';
 import { UniBlockchainStoreService } from '../../store/blockchain-store.service';
 import { BlocksApiParams } from '../../models/interfaces/blocks-api-params.model';
 
@@ -32,16 +32,15 @@ export class UniBlocksService {
     return this.blockchainStore.getBlocksCount();
   }
 
-  getBlocks(): Observable<Block[]> {
-    return this.blockchainStore.getBlocks()
-      .pipe(map((data: Block[]): Block[] => data ?? []));
+  getBlocks(): Observable<ModifiedBlock[]> {
+    return this.blockchainStore.getBlocks();
   }
 
   setSelectedBlock(payload: number): void {
     this.blockchainStore.setSelectedBlock(payload);
   }
 
-  setQueryParams(queryParams): void {
+  setQueryParams(queryParams: UniObject<number | undefined>): void {
     this.router.navigate([], { queryParams, queryParamsHandling: 'merge' });
   }
 
