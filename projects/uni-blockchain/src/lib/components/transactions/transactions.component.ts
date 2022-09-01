@@ -47,8 +47,11 @@ export class UniTransactionsComponent extends RxUnsubscribe implements OnInit, A
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: UniObject<number>): void => {
         this.transactionsCounts = data;
+        // Set total count if selected is visible;
         this.transactionsCount = this.params.selected ? data[this.params.selected] : 0;
+        // Remove table data if selected is not visible
         this.data = this.transactionsCount ? this.transactions : [];
+
         this.loadTransactions();
       });
   }
@@ -58,6 +61,7 @@ export class UniTransactionsComponent extends RxUnsubscribe implements OnInit, A
       .pipe(takeUntil(this.destroy$))
       .subscribe((selectedBlock: number | undefined): void => {
         this.params.selected = selectedBlock;
+        // Set total count if selected is visible;
         this.transactionsCount = this.transactionsCounts && selectedBlock ? this.transactionsCounts[selectedBlock] : 0;
 
         // If the user selects other block, reset back to the first page.

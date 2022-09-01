@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { merge, takeUntil } from 'rxjs';
+import { merge, of, Observable, takeUntil } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
 import { isDefined, RxUnsubscribe } from 'uni-common';
@@ -21,7 +21,7 @@ export class UniBlocksComponent extends RxUnsubscribe implements OnInit, AfterVi
   columns: string[] = ['level', 'proposer', 'timestamp', 'transactions'];
   limits: number[] = [5, 10];
   limit: number = 5;
-  blocksCount: number = 0;
+  blocksCount$: Observable<number> = of(0);
   activeRequests: number = 0;
   data: Block[] = [];
   params: Partial<{ page: number; selected: number; }> = {};
@@ -40,15 +40,12 @@ export class UniBlocksComponent extends RxUnsubscribe implements OnInit, AfterVi
     this.params.selected = parseInt(params.get('block') ?? '');
     this.blocksService.setSelectedBlock(this.params.selected);
 
-    this.blocksService.getBlocksCount()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((total: number) => (this.blocksCount = total));
+    this.blocksCount$ = this.blocksService.getBlocksCount();
 
     this.blocksService.getBlocks()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: ModifiedBlock[]) => {
+      .subscribe((data: ModifiedBlock[]): void => {
         this.activeRequests--;
-
         this.data = data;
       });
   }

@@ -45,7 +45,7 @@
       </tr>
     </table>
 
-    <mat-paginator [length]='blocksCount' [pageSize]='limit' [pageSizeOptions]='limits' [showFirstLastButtons]='true'
+    <mat-paginator [length]='blocksCount$ | async' [pageSize]='limit' [pageSizeOptions]='limits' [showFirstLastButtons]='true'
                    aria-label='Select page of blocks results'>
     </mat-paginator>
   </div>
