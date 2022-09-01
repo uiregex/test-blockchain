@@ -32,7 +32,7 @@ export const selectEnrichedBlocks = createSelector(
   selectTransactionsCounts,
   (blocks: Array<Block>, transactionsCounts: UniObject<number>): ModifiedBlock[] => blocks.map((block: Block) => ({
     ...block,
-    transactions: transactionsCounts[block.level] ?? null,
+    transactions: transactionsCounts[block.level] ?? 0,
   })),
 );
 

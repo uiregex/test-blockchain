@@ -33,10 +33,7 @@
       <!-- Transactions Count Column -->
       <ng-container matColumnDef='transactions'>
         <th mat-header-cell *matHeaderCellDef>Transactions Count</th>
-        <td mat-cell *matCellDef='let row'>
-          {{ row.transactions }}
-          <div *ngIf='!row.transactions'>N/A</div>
-        </td>
+        <td mat-cell *matCellDef='let row'>{{ row.transactions }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef='columns'></tr>
