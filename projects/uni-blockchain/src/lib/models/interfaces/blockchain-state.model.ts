@@ -8,7 +8,7 @@ import { Transaction } from './transaction.model';
 export interface BlockchainState {
   blocksCount: number;
   blocks: EntityState<Block>;
-  transactionsCount: UniObject<number>;
+  transactionsCounts: UniObject<number>;
   transactions: Transaction[];
   ui: Partial<BlockchainUiState>;
 }

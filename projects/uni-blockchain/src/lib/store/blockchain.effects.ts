@@ -14,13 +14,13 @@ import {
   LOAD_BLOCKS,
   LOAD_BLOCKS_COUNT,
   LOAD_TRANSACTIONS,
-  LOAD_TRANSACTIONS_COUNT,
+  LOAD_TRANSACTIONS_COUNTS,
   SET_BLOCKS,
-  loadTransactionsCount,
+  loadTransactionsCounts,
   setBlocks,
   setBlocksCount,
   setTransactions,
-  setTransactionsCount,
+  setTransactionsCounts,
 } from './blockchain.actions';
 import { PayloadData } from '../models/interfaces/payload-data.model';
 import { Observable } from 'rxjs';
@@ -70,13 +70,13 @@ export class UniBlockchainEffects {
       withLatestFrom(this.blockchainStore.getBlocksIds()),
       map(([data, ids]: [never, number[] | string[]]): string => ids.toString()),
       errorHandler('SET_BLOCKS'),
-      map((levels: string): Action => loadTransactionsCount({ payload: levels })),
+      map((levels: string): Action => loadTransactionsCounts({ payload: levels })),
     ),
   );
 
   loadTransactionsCount$ = createEffect(() =>
     this.action$.pipe(
-      ofType(LOAD_TRANSACTIONS_COUNT),
+      ofType(LOAD_TRANSACTIONS_COUNTS),
       map((data: PayloadData<string>): string => data.payload),
       switchMap((levels: string): Observable<number[]> => this.restService.get('transactionsUrl', {
         request: {
@@ -92,7 +92,7 @@ export class UniBlockchainEffects {
         return acc;
       }, {})),
       errorHandler('LOAD_TRANSACTIONS_COUNT'),
-      map((payload: UniObject<number>): Action => setTransactionsCount({ payload })),
+      map((payload: UniObject<number>): Action => setTransactionsCounts({ payload })),
     ),
   );
 

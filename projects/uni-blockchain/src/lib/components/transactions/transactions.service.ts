@@ -23,8 +23,8 @@ export class UniTransactionsService {
     return this.blockchainStore.getTransactions();
   }
 
-  getTransactionsCount(): Observable<UniObject<number>> {
-    return this.blockchainStore.getTransactionsCount();
+  getTransactionsCounts(): Observable<UniObject<number>> {
+    return this.blockchainStore.getTransactionsCounts();
   }
 
   getSelectedBlock(): Observable<number | undefined> {

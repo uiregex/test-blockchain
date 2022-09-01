@@ -43,7 +43,7 @@ export class UniTransactionsComponent extends RxUnsubscribe implements OnInit, A
         this.activeRequests--;
       });
 
-    this.transactionsService.getTransactionsCount()
+    this.transactionsService.getTransactionsCounts()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: UniObject<number>): void => {
         this.transactionsCounts = data;

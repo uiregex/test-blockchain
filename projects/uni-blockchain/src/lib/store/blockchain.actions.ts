@@ -15,8 +15,8 @@ export const LOAD_BLOCKS = "[Blocks] Load";
 export const SET_BLOCKS = "[Blocks] Set";
 export const SET_SELECTED_BLOCK = "[Blocks] Set Selected";
 
-export const LOAD_TRANSACTIONS_COUNT = "[Transactions] Load Count";
-export const SET_TRANSACTIONS_COUNT = "[Transactions] Set Count";
+export const LOAD_TRANSACTIONS_COUNTS = "[Transactions] Load Counts";
+export const SET_TRANSACTIONS_COUNTS = "[Transactions] Set Counts";
 
 export const LOAD_TRANSACTIONS = "[Transactions] Load";
 export const SET_TRANSACTIONS = "[Transactions] Set";
@@ -29,8 +29,8 @@ export const loadBlocks = createAction(LOAD_BLOCKS, props<{ payload: BlocksApiPa
 export const setBlocks = createAction(SET_BLOCKS, props<{ payload: Block[] }>());
 export const setSelectedBlock = createAction(SET_SELECTED_BLOCK, props<{ payload: number }>());
 
-export const loadTransactionsCount = createAction(LOAD_TRANSACTIONS_COUNT, props<{ payload: string }>());
-export const setTransactionsCount = createAction(SET_TRANSACTIONS_COUNT, props<{ payload: UniObject<number> }>());
+export const loadTransactionsCounts = createAction(LOAD_TRANSACTIONS_COUNTS, props<{ payload: string }>());
+export const setTransactionsCounts = createAction(SET_TRANSACTIONS_COUNTS, props<{ payload: UniObject<number> }>());
 
 export const loadTransactions = createAction(LOAD_TRANSACTIONS, props<{ payload: TransactionsApiParams }>());
 export const setTransactions = createAction(SET_TRANSACTIONS, props<{ payload: Transaction[] }>());

@@ -13,7 +13,7 @@ const blockchainState = createFeatureSelector('blockchain') as MemoizedSelector<
 const blocksState = createSelector(blockchainState, (state: BlockchainState): EntityState<Block> => state.blocks);
 const blocksCountState = createSelector(blockchainState, (state: BlockchainState): number => state.blocksCount);
 const transactionsState = createSelector(blockchainState, (state: BlockchainState): Transaction[] => state.transactions);
-const transactionsCountState = createSelector(blockchainState, (state: BlockchainState): UniObject<number> => state.transactionsCount);
+const transactionsCountsState = createSelector(blockchainState, (state: BlockchainState): UniObject<number> => state.transactionsCounts);
 
 
 export const selectBlocksCount = createSelector(blocksCountState, (state: number): number => state);
@@ -22,17 +22,17 @@ export const { selectAll: selectBlocks } = uniBlocksAdapter.getSelectors(blocksS
 export const { selectIds: selectBlocksIds } = uniBlocksAdapter.getSelectors(blocksState);
 
 export const selectTransactions = createSelector(transactionsState, (state: Transaction[]): Transaction[] => state);
-export const selectTransactionsCount = createSelector(
-  transactionsCountState,
+export const selectTransactionsCounts = createSelector(
+  transactionsCountsState,
   (state: UniObject<number>): UniObject<number> => state,
 );
 
 export const selectEnrichedBlocks = createSelector(
   selectBlocks,
-  selectTransactionsCount,
-  (blocks: Array<Block>, transactionsCount: UniObject<number>): ModifiedBlock[] => blocks.map((block: Block) => ({
+  selectTransactionsCounts,
+  (blocks: Array<Block>, transactionsCounts: UniObject<number>): ModifiedBlock[] => blocks.map((block: Block) => ({
     ...block,
-    transactions: transactionsCount[block.level] ?? null,
+    transactions: transactionsCounts[block.level] ?? null,
   })),
 );
 

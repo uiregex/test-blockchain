@@ -8,7 +8,7 @@ import {
   setBlocksCount,
   setSelectedBlock,
   setTransactions,
-  setTransactionsCount,
+  setTransactionsCounts,
 } from './blockchain.actions';
 
 
@@ -19,7 +19,7 @@ const blocksReducer = createReducer(
   on(setBlocks, (state, { payload }) => uniBlocksAdapter.setMany(payload, { ids: [], entities: {} })),
 );
 
-const transactionsCountReducer = createReducer({}, on(setTransactionsCount, (state, { payload }) => payload));
+const transactionsCountsReducer = createReducer({}, on(setTransactionsCounts, (state, { payload }) => payload));
 
 const transactionsReducer = createReducer([] as Transaction[], on(setTransactions, (state, { payload }): Transaction[] => payload));
 
@@ -31,7 +31,7 @@ const uiReducer = createReducer(
 export const uniBlockchainReducers: ActionReducerMap<BlockchainState> = {
   blocks: blocksReducer,
   blocksCount: blocksCountReducer,
-  transactionsCount: transactionsCountReducer,
+  transactionsCounts: transactionsCountsReducer,
   transactions: transactionsReducer,
   ui: uiReducer,
 };
