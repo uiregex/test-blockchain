@@ -24,8 +24,8 @@
     ],
     "paths": {
       "uni-common": [
-        "dist/uni-common",
-        // "projects/uni-common/src/public-api"
+        // "dist/uni-common",
+        "projects/uni-common/src/public-api"
       ],
       "uni-blockchain": [
         // "dist/uni-blockchain",
