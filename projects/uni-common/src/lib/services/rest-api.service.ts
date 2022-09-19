@@ -120,8 +120,7 @@ export class UniRestApiService {
   }
 
   private resolveUrl(url: string, options?: UniObject<string>): string {
-    let prodData = this.uniRoutes.prod,
-      path = this.debug ? this.uniRoutes.mock.urls[url] : prodData.gateways.identityProvider + prodData.urls[url];
+    let path = this.debug ? this.uniRoutes.mock.urls[url] : this.uniRoutes.prod.urls[url];
 
     if (options) {
       for (let key in options) {
